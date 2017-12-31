@@ -1,6 +1,6 @@
 align 4
 
-global call_from_c_test
+global system_interrupt_test
 
 global int22
 global int23
@@ -43,9 +43,9 @@ sys_break:
      int 0x30
      ret
 
-call_from_c_test:
-	mov eax, 0xBADA
-     int 0x30
+system_interrupt_test:
+	mov eax, 0x8845
+    int 0x30
 	ret
 
 

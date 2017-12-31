@@ -35,7 +35,7 @@ void term_setup( void ) {
 	term_current_column = 0;
 	y_start = 0;
 	term_current_color = vga_entry_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE );
-	term_buffer = (unsigned short *) (0x000B8000);
+	term_buffer = (unsigned short *) (0xC00B8000);
 
 	for( y = 0; y < VGA_HEIGHT; y++ ) {
 		for( x = 0; x < VGA_WIDTH; x++ ) {

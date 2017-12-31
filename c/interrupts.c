@@ -33,7 +33,7 @@ void initalize_interrupts( void ) {
 	AddInt( 0x2D, int2D, 0 );
 	AddInt( 0x2E, int2E, 0 );
 	AddInt( 0x2F, int2F, 0 );
-	AddInt( 0x30, int30, 0 );
+	AddInt( 0x30, int30, 3 );
 
 	load_idtr();
 
@@ -93,6 +93,23 @@ void interrupt_default_handler( unsigned long route_code, struct interrupt_stack
 			debug_f( "  eip:  0x%08X\n", stack.eip );
 			debug_f( "sys_break syscall done.\n" );
 			*/
+		}
+
+		if( eax == 0x8844 ) {
+			debug_f( "System call executed" );
+		}
+
+		if( eax == 0x8845 ) {
+			debug_f( "!" );
+
+			printf( "User mode register dump:\n" );
+			printf( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack.eax, stack.ebx, stack.ecx, stack.edx );
+			printf( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack.esp, stack.ebp, stack.esi, stack.edi );
+			printf( "  ds:   0x%04X  es:   0x%04X  fs:   0x%04X  gs:   0x%04X\n", stack.ds, stack.es, stack.fs, stack.gs );
+			printf( "  eip:  0x%08X\n", stack.eip );
+
+			// asm( "hlt" );
+			
 		}
 
 		pic_acknowledge( 0x20 );
@@ -187,7 +204,7 @@ void pic_acknowledge( unsigned int interrupt ) {
 
 void panic(char *message, char *code, bool halt)
 {
-     //debug_f( message );
+     debug_f( message );
      
 	 outportb(MASTER, EOI); //send PIC EOI command
 }
@@ -235,9 +252,9 @@ void int_07(void)
 	panic("Device Not Available","#NM", false);
 }
 
-void int_08(void)
+void int_08( struct interrupt_stack stack )
 {
-	panic("Double Fault","#DF", true);
+	debug_f( "Double fault eip: 0x%08X\n", stack.eip );
 }
 
 void int_09(void)
@@ -260,10 +277,10 @@ void int_12(void)
 	panic("Stack Segment Fault","#SS", false);
 }
 
-void int_13(void)
+void int_13( struct interrupt_stack stack )
 {
 	if( ! gpf_fired ) {
-		panic("Gneral Protection Fault","#GP", false);
+		debug_f( "GPF eip: 0x%08X\n", stack.eip );
 		gpf_fired = true;
 	}
 }
@@ -271,7 +288,7 @@ void int_13(void)
 void int_14( void * address )
 {
 	//write_to_serial_port( '*' );
-	//debug_f( "PF: 0x%08X\n", address );
+	debug_f( "PF: 0x%08X\n", address );
 	//panic("Page Fault","#PF", false);
 }
 

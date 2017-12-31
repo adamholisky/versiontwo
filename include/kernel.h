@@ -7,7 +7,10 @@
 #define word unsigned short
 #define dword unsigned int
 
+#define kernel_memory_base  0xC0000000
+
 #include "interrupts.h"
+#include "memory.h"
 #include "serial.h"
 #include "term.h"
 #include "base.h"

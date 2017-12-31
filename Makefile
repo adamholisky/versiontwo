@@ -18,7 +18,7 @@ versiontwo.iso:
 	grub-mkrescue -o versiontwo.iso iso
 
 run: versiontwo.iso
-	qemu-system-i386 -cdrom versiontwo.iso -serial stdio
+	qemu-system-i386 -d cpu_reset -cdrom versiontwo.iso -serial stdio
 
 runclean:
 	make clean
