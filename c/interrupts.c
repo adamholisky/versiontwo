@@ -7,6 +7,8 @@ uint8_t	        pic2_irq_mask;
 bool	        debug_interrupts = false;
 bool 	        gpf_fired = false;
 
+extern void interrupt_6( void );
+
 void initalize_interrupts( void ) {
 	remap_pic( 0x20, 0x28 );
 
@@ -33,7 +35,7 @@ void initalize_interrupts( void ) {
 	AddInt( 0x2D, int2D, 0 );
 	AddInt( 0x2E, int2E, 0 );
 	AddInt( 0x2F, int2F, 0 );
-	AddInt( 0x30, int30, 3 );
+	AddInt( 0x30, interrupt_0x30, 3 );
 
 	load_idtr();
 
@@ -60,59 +62,61 @@ void set_debug_interrupts( bool d ) {
 	debug_interrupts = d;
 }
 
-void interrupt_default_handler( unsigned long route_code, struct interrupt_stack stack ) {
+void interrupt_default_handler( unsigned long interrupt_num, unsigned long route_code, struct interrupt_stack * stack ) {
 	//if( route_code != 0x1001 ) debug_f( "Int Route: 0x%04X   eax: 0x%04X\n", route_code, stack.eax );
 
 	if ( route_code == 0x1001 ) {
 		//timer_handler();
 		pic_acknowledge( 0x20 );
+	} else if ( route_code == 0x01 ) {
+		// Exception handling
+		switch( interrupt_num ) {
+			case 0:
+				debug_f( "Exception: Divide by zero\n" );
+				break;
+			case 6:
+				debug_f( "Exception: Invalid opcode\n" );
+				break;
+			default:
+				debug_f( "Unhandled exception: %0x02X\n", interrupt_num );
+		}
+		
+		while( 1 ) { ; }
 	} else if ( route_code == 0x1002 ) {
 		//mouse_handler();
 		pic_acknowledge( 0x2C );
 	} else {
-		unsigned int eax = (unsigned int)stack.eax;
+		if( interrupt_num == 0x30 ) {
+			unsigned int eax = (unsigned int)stack->eax;
 		
-		if( eax == 0x0001 ) {
-			//char * string = stack.edx - 0xC0100000;
-			//printf( string );
-			//debug_f( "printf syscall done\n" );
+			if( eax == 0x8844 ) {
+				debug_f( "System call executed" );
+			}
+
+			if( eax == 0x8845 ) {
+				debug_f( "!" );
+
+				union x86flags ef;
+				
+				ef = (union x86flags)stack->eflags;
+
+				printf( "User mode register dump:\n" );
+				printf( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack->eax, stack->ebx, stack->ecx, stack->edx );
+				printf( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack->esp, stack->ebp, stack->esi, stack->edi );
+				printf( "  ds:   0x%04X      es:   0x%04X      fs:   0x%04X      gs:   0x%04X\n", stack->ds, stack->es, stack->fs, stack->gs );
+				printf( "  cs:   0x%04X      eip:  0x%08X    flag: 0x%08X\n", stack->cs, stack->eip, ef.all_flags );
+				printf( "  cf: %d  pf: %d  af: %d  zf: %d  sf: %d  tf: %d  if: %d  iopl: %d  nt: %d  rf: %d\n", ef.eflags_bits.cf, ef.eflags_bits.pf, ef.eflags_bits.af, ef.eflags_bits.zf, ef.eflags_bits.sf, ef.eflags_bits.tf, ef.eflags_bits.ifen, ef.eflags_bits.iopl, ef.eflags_bits.nt, ef.eflags_bits.rf );
+				printf( "  vm: %d  ac: %d  vif: %d  id: %d\n\n", ef.eflags_bits.vm, ef.eflags_bits.ac, ef.eflags_bits.vif, ef.eflags_bits.id );
+
+				// Set this to prove we can modify program dynamically 
+				stack->ebx = stack->ebx + 1;
+
+				// asm( "hlt" );
+				
+			}
+
+			pic_acknowledge( 0x20 );
 		}
-		
-		if( eax == 0x1000 ) {
-			/*
-			debug_f( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack.eax, stack.ebx, stack.ecx, stack.edx );
-			debug_f( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack.esp, stack.ebp, stack.esi, stack.edi );
-			debug_f( "  ds:   0x%04X  es:   0x%04X  fs:   0x%04X  gs:   0x%04X\n", stack.ds, stack.es, stack.fs, stack.gs );
-			debug_f( "  eip:  0x%08X\n", stack.eip );
-			*/
-			//sys_break_handler( &stack );
-			/*
-			debug_f( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack.eax, stack.ebx, stack.ecx, stack.edx );
-			debug_f( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack.esp, stack.ebp, stack.esi, stack.edi );
-			debug_f( "  ds:   0x%04X  es:   0x%04X  fs:   0x%04X  gs:   0x%04X\n", stack.ds, stack.es, stack.fs, stack.gs );
-			debug_f( "  eip:  0x%08X\n", stack.eip );
-			debug_f( "sys_break syscall done.\n" );
-			*/
-		}
-
-		if( eax == 0x8844 ) {
-			debug_f( "System call executed" );
-		}
-
-		if( eax == 0x8845 ) {
-			debug_f( "!" );
-
-			printf( "User mode register dump:\n" );
-			printf( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack.eax, stack.ebx, stack.ecx, stack.edx );
-			printf( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack.esp, stack.ebp, stack.esi, stack.edi );
-			printf( "  ds:   0x%04X  es:   0x%04X  fs:   0x%04X  gs:   0x%04X\n", stack.ds, stack.es, stack.fs, stack.gs );
-			printf( "  eip:  0x%08X\n", stack.eip );
-
-			// asm( "hlt" );
-			
-		}
-
-		pic_acknowledge( 0x20 );
 	}
 }
 
@@ -148,25 +152,25 @@ void load_exceptions()
 	/*
 	 * Add all Exception Interrupts
 	 */
-	AddInt(0, int00, 0);
-    AddInt(1, int01, 0);
-    AddInt(2, int02, 0);
-    AddInt(3, int03, 0);
-    AddInt(4, int04, 0);
-    AddInt(5, int05, 0);
-    AddInt(6, int06, 0);
-    AddInt(7, int07, 0);
-    AddInt(8, int08, 0);
-    AddInt(9, int09, 0);
-    AddInt(10, int10, 0);
-    AddInt(11, int11, 0);
-    AddInt(12, int12, 0);
-    AddInt(13, int13, 0);
-    AddInt(14, int14, 0);
-    AddInt(16, int16, 0);
-    AddInt(17, int17, 0);
-    AddInt(18, int18, 0);
-    AddInt(19, int19, 0);
+	AddInt(0, interrupt_0, 0);
+    AddInt(1, interrupt_1, 0);
+    AddInt(2, interrupt_2, 0);
+    AddInt(3, interrupt_3, 0);
+    AddInt(4, interrupt_4, 0);
+    AddInt(5, interrupt_5, 0);
+    AddInt(6, interrupt_6, 0);
+    AddInt(7, interrupt_7, 0);
+    AddInt(8, interrupt_8, 0);
+    AddInt(9, interrupt_9, 0);
+    AddInt(10, interrupt_10, 0);
+    AddInt(11, interrupt_11, 0);
+    AddInt(12, interrupt_12, 0);
+    AddInt(13, interrupt_13, 0);
+    AddInt(14, interrupt_14, 0);
+    AddInt(16, interrupt_16, 0);
+    AddInt(17, interrupt_17, 0);
+    AddInt(18, interrupt_18, 0);
+    AddInt(19, interrupt_19, 0);
 	AddInt(20, 0, 0);
 	//AddInt(21, 0, 0);
 	AddInt(22, 0, 0);
@@ -207,74 +211,8 @@ void panic(char *message, char *code, bool halt)
      debug_f( message );
      
 	 outportb(MASTER, EOI); //send PIC EOI command
-}
 
-/*
- * Exception Handlers
- */
-void int_00(void)
-{
-	panic("Divide By Zero Error","#00", false);
-}
-
-void int_01(void)
-{
-	panic("Debug Error","#DB", false);
-}
-
-void int_02(void)
-{
-	panic("NMI Interrupt","#--", false);
-}
-
-void int_03(void)
-{
-	panic("Breakpoint","#BP", false);
-}
-
-void int_04(void)
-{
-	panic("Overflow","#OF", false);
-}
-
-void int_05(void)
-{
-	panic("BOUND Range Exceeded","#BR", false);
-}
-
-void int_06(void)
-{
-	panic("Invalid Opcode","#UD", false);
-}
-
-void int_07(void)
-{
-	panic("Device Not Available","#NM", false);
-}
-
-void int_08( struct interrupt_stack stack )
-{
-	debug_f( "Double fault eip: 0x%08X\n", stack.eip );
-}
-
-void int_09(void)
-{
-	panic("Coprocessor Segment Overrun", "#NA", false);
-}
-
-void int_10(void)
-{
-	panic("Invalid TSS","#TS", false);
-}
-
-void int_11(void)
-{
-	panic("Segment Not Present","#NP", false);
-}
-
-void int_12(void)
-{
-	panic("Stack Segment Fault","#SS", false);
+	 while ( 1 ) { ; }
 }
 
 void int_13( struct interrupt_stack stack )
@@ -285,32 +223,13 @@ void int_13( struct interrupt_stack stack )
 	}
 }
 
-void int_14( void * address )
+void interrupt_handler_14( void * address )
 {
 	//write_to_serial_port( '*' );
 	debug_f( "PF: 0x%08X\n", address );
 	//panic("Page Fault","#PF", false);
 }
 
-void int_16(void)
-{
-	panic("FPU Floating-Point Error","#MF", false);
-}
-
-void int_17(void)
-{
-	panic("Alignment Check","#AC", false);
-}
-
-void int_18(void)
-{
-	panic("Machine Check","#MC", true);
-}
-
-void int_19(void)
-{
-	panic("SIMD Floating-Point","#XF", false);
-}
 
 void int_22( void ) {
 	pic_acknowledge( 0x22 );

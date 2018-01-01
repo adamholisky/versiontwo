@@ -66,45 +66,79 @@ typedef struct {
 } __attribute__ ((packed)) idtr;
 
 struct interrupt_stack {
-	unsigned int	gs;
-	unsigned int	fs;
-	unsigned int	es;
-	unsigned int	ds;
-	unsigned int	edi;
-	unsigned int	esi;
-	unsigned int	ebp;
-	unsigned int	esp;
-	unsigned int	ebx;
-	unsigned int	edx;
-	unsigned int	ecx;
-	unsigned int	eax;
-	unsigned int 	ss;
-	unsigned int	useresp;
-	unsigned int    cs;
-	unsigned int   	eip;
+	uint32_t	gs;
+	uint32_t	fs;
+	uint32_t	es;
+	uint32_t	ds;
+	uint32_t	edi;
+	uint32_t	esi;
+	uint32_t	ebp;
+	uint32_t	_esp;
+	uint32_t	ebx;
+	uint32_t	edx;
+	uint32_t	ecx;
+	uint32_t	eax;
+
+	//uint32_t	error;
+	uint32_t	eip;
+	uint16_t	cs;
+	uint16_t	padding;
+	uint32_t	eflags;
+
+	uint32_t	esp;
+	uint32_t	ss;
 };
 
-extern void int00(void);
-extern void int01(void);
-extern void int02(void);
-extern void int03(void);
-extern void int04(void);
-extern void int05(void);
-extern void int06(void);
-extern void int07(void);
-extern void int08(void);
-extern void int09(void);
-extern void int10(void);
-extern void int11(void);
-extern void int12(void);
-extern void int13(void);
-extern void int14(void);
-extern void int15(void);
-extern void int16(void);
-extern void int17(void);
-extern void int18(void);
-extern void int19(void);
-extern void int30(void);
+union x86flags {
+	uint32_t	all_flags;
+
+	struct {
+		uint32_t cf:1; 
+		uint32_t must_be_1:1;
+		uint32_t pf:1;
+		uint32_t must_be_0_1:1;
+		uint32_t af:1; 
+		uint32_t must_be_0_2:1;
+		uint32_t zf:1;
+		uint32_t sf:1;
+		uint32_t tf:1;  
+		uint32_t ifen:1;  
+		uint32_t df:1;
+		uint32_t of:1;
+		uint32_t iopl:2; 
+		uint32_t nt:1;
+		uint32_t must_be_0_3:1;
+		uint32_t rf:1; 
+		uint32_t vm:1;
+		uint32_t ac:1;
+		uint32_t vif:1;
+		uint32_t vip:1; 
+		uint32_t id:1;   
+		uint32_t must_be_0_4:2;  
+		uint32_t must_be_0_5:4; 
+	} eflags_bits;
+};
+
+extern void interrupt_0(void);
+extern void interrupt_1(void);
+extern void interrupt_2(void);
+extern void interrupt_3(void);
+extern void interrupt_4(void);
+extern void interrupt_5(void);
+extern void interrupt_6(void);
+extern void interrupt_7(void);
+extern void interrupt_8(void);
+extern void interrupt_9(void);
+extern void interrupt_10(void);
+extern void interrupt_11(void);
+extern void interrupt_12(void);
+extern void interrupt_13(void);
+extern void interrupt_14(void);
+extern void interrupt_16(void);
+extern void interrupt_17(void);
+extern void interrupt_18(void);
+extern void interrupt_19(void);
+extern void interrupt_0x30(void);
 extern void int20( void );
 extern void int21( void );
 extern void int22( void );
@@ -122,38 +156,8 @@ extern void int2D( void );
 extern void int2E( void );
 extern void int2F( void );
 
-void int_00(void);
-void int_01(void);
-void int_02(void);
-void int_03(void);
-void int_04(void);
-void int_05(void);
-void int_06(void);
-void int_07(void);
-void int_08( struct interrupt_stack stack );
-void int_09(void);
-void int_10(void);
-void int_11(void);
-void int_12(void);
-void int_13( struct interrupt_stack stack );
-void int_14( void * address );
-void int_16(void);
-void int_17(void);
-void int_18(void);
-void int_19(void);
-void int_22(void);
-void int_23(void);
-void int_24(void);
-void int_25(void);
-void int_26(void);
-void int_27(void);
-void int_28(void);
-void int_29(void);
-void int_2A(void);
-void int_2B(void);
-void int_2D(void);
-void int_2E(void);
-void int_2F(void);
+
+void interrupt_handler_14( void * address );
 
 void initalize_interrupts( void );
 void load_idtr( void );//sets up IDT by loading IDTR
@@ -165,6 +169,6 @@ void mask_irq(byte irq);                 //PIC irq masking
 void unmaskIRQ(byte irq);               //PIC irq unmasking
 void INTS(bool on);                     //sti or cli
 void pic_acknowledge(unsigned int interrupt);
-void interrupt_default_handler( unsigned long route_code, struct interrupt_stack stack );
+void interrupt_default_handler( unsigned long interrupt_num, unsigned long route_code, struct interrupt_stack * stack );
 void set_debug_interrupts( bool d );
 
