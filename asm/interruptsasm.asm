@@ -2,36 +2,6 @@ align 4
 
 global system_interrupt_test
 
-global int22
-global int23
-global int24
-global int25
-global int26
-global int27
-global int28
-global int29
-global int2A
-global int2B
-global int2C
-global int2D
-global int2E
-global int2F
-
-extern int_22
-extern int_23
-extern int_24
-extern int_25
-extern int_26
-extern int_27
-extern int_28
-extern int_29
-extern int_29
-extern int_2A
-extern int_2B
-extern int_2D
-extern int_2E
-extern int_2F
-
 ; extern call_from_asm_test
 extern interrupt_default_handler
 
@@ -48,330 +18,6 @@ system_interrupt_test:
     int 0x30
 	ret
 
-
-[global int20]
-int20:
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax, 0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               mov eax, 0x1001
-               push eax
-                    cld
-                    call interrupt_default_handler   ; Test Interrupt Handler
-               pop eax
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     iret
-
-[global int21]
-int21:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int22:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_22
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int23:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_23
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int24:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_24
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int25:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_25
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int26:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_26
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int27:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_27
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int28:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_28
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int29:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_29
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2A:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call int_2A
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2B:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2C:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2D:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2E:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
-int2F:
-     cli
-     pusha
-          push ds
-          push es
-          push fs
-          push gs
-               mov eax,0x10    ; Data segment
-               mov ds,eax
-               mov es,eax
-               cld
-               call interrupt_default_handler
-          pop gs
-          pop fs
-          pop es
-          pop ds
-     popa
-     sti
-     iret
-
 ; Interrupts
 ; Revised for macro usage
 %macro interrupt_handler 1
@@ -386,7 +32,7 @@ interrupt_%1:
                 mov eax, 0x10
                 mov ds, eax
                 mov es, eax
-                mov eax, 0x0
+                mov eax, 0x2
                 push eax
                     mov eax, %1
                     push eax
@@ -403,6 +49,22 @@ interrupt_%1:
      iret
 %endmacro
 
+interrupt_handler 0x20
+interrupt_handler 0x21
+interrupt_handler 0x22
+interrupt_handler 0x23
+interrupt_handler 0x24
+interrupt_handler 0x25
+interrupt_handler 0x26
+interrupt_handler 0x27
+interrupt_handler 0x28
+interrupt_handler 0x29
+interrupt_handler 0x2A
+interrupt_handler 0x2B
+interrupt_handler 0x2C
+interrupt_handler 0x2D
+interrupt_handler 0x2E
+interrupt_handler 0x2F
 interrupt_handler 0x30
 
 ; Exceptions 
