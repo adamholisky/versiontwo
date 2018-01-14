@@ -18,18 +18,20 @@ void kernel_main( void ) {
 	term_setup();
 	initalize_interrupts();
 	serial_setup();
-
+	debug_f( "VersionTwo Serial Output\n\n" );
+	
 	initalize_memory();
-	initalize_paging();
 	initalize_user_mode();
  
 	printf( "VersionTwo\n\n" );
 
-	debug_f( "VersionTwo Serial Output\n\n" );
+	
 
-	test_user_mode_app();
+	//test_user_mode_app();
 
-	printf( "Entering forever land." );
+	mem_tests();
+
+	printf( "\nEntering forever land." );
 
 	while ( 1 ) { ; }
 }

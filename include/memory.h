@@ -66,3 +66,26 @@ extern void stack( void );
 extern void GDT( void );
 extern void load_kernel_managed_paging( uint32_t * page_dir );
 void test_user_mode_app( void );
+void mem_tests( void );
+
+void * kmalloc( uint32_t size );
+void * get_free_page( uint16_t num );
+
+/** This function is supposed to lock the memory data structures. It
+ * could be as simple as disabling interrupts or acquiring a spinlock.
+ * It's up to you to decide. 
+ *
+ * \return 0 if the lock was acquired successfully. Anything else is
+ * failure.
+ */
+ int liballoc_lock();
+
+/** This function unlocks what was previously locked by the liballoc_lock
+ * function.  If it disabled interrupts, it enables interrupts. If it
+ * had acquiried a spinlock, it releases the spinlock. etc.
+ *
+ * \return 0 if the lock was successfully released.
+ */
+ int liballoc_unlock();
+ void * liballoc_alloc( int n );
+ int liballoc_free( void * p, int n );

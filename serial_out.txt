@@ -1,0 +1,16 @@
+[get_free_page] Allocated Page: 832 -- phys_addr: 0x00800000 -- virt_addr: 0xD0000000
+=====Memory Tests=====
+mem_a (1 byte):     0xD00000008
+mem_b (1024 bytes): 0xD00000018
+mem_c (4096 bytes): 0xD00008018
+mem_d (1 byte):     0xD00048018
+mem_e (1 byte):     0xD00048028
+mem_a:              A
+mem_b:              Katherine Holisky
+page_dir 000:  0x04000087
+pt_entry 000:  p:1 r:1 u:1 w:0 d:0 a:0 0:0 s:1 ig:0 av:0 phy_addr: 0x04000000
+page_dir 768:  0x000000E3
+pt_entry 768:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00000000
+page_dir 832:  0xC0104ED3
+pt_entry 832:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00800000
+==========

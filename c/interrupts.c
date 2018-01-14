@@ -42,11 +42,9 @@ void initalize_interrupts( void ) {
 	asm( "int %0" : : "i"(0x2E) );
 	asm( "int %0" : : "i"(0x2F) );
 	asm( "int %0" : : "i"(0x30) );
-
 }
 
-void load_idtr( void )
-{
+void load_idtr( void ) {
     sIDTR.limit  = 256*(sizeof(x86_interrupt)-1);
     sIDTR.base   = IDT;
 
@@ -139,11 +137,7 @@ void add_interrupt( int number, void (*handler)(), dword dpl ) {
      IDT[number].high_offset  = (offset >> 16);
 }
 
-void load_exceptions()
-{
-	/*
-	 * Add all Exception Interrupts
-	 */
+void load_exceptions( void ) {
 	add_interrupt(0, interrupt_0, 0);
     add_interrupt(1, interrupt_1, 0);
     add_interrupt(2, interrupt_2, 0);
@@ -166,7 +160,7 @@ void load_exceptions()
 }
 
  /* enables/disables software interrupts */
-void INTS(bool on) {
+void INTS( bool on ) {
 	if( on ) {
 		asm("sti");
 	} else {

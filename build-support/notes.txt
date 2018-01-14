@@ -1,0 +1,11 @@
+Memory Map (physical)
+
+0x0000 0000     Reserved
+0x0010 0000     Kernel start    1MB -- 1,048,567
+
+Memory Map (paged)
+
+0x0000 0000     User            0GB
+0x4000 0000     User            1GB
+0x8000 0000     User            2GB
+0xC000 0000     Kernel          3GB -- 3,221,225,472

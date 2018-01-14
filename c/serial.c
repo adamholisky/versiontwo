@@ -1,15 +1,15 @@
 #include "kernel.h"
 
-uint32_t	port;
-
-uint32_t COM1 = 0x3F8;
-uint32_t COM2 = 0x2F8;
-uint32_t COM3 = 0x3E8;
-uint32_t COM4 = 0x2E8;
+uint32_t	default_port;
 
 void serial_setup( void ) {
-	port = COM1;
+	serial_setup_port( COM1 );
+	serial_setup_port( COM2 );
 
+	default_port = COM1;
+}
+
+void serial_setup_port( uint32_t port ) {
 	outportb( port + 1, 0x00);    // Disable all interrupts
 	outportb( port + 3, 0x80);    // Enable DLAB (set baud rate divisor)
 	outportb( port + 0, 0x03);    // Set divisor to 3 (lo byte) 38400 baud
@@ -19,7 +19,15 @@ void serial_setup( void ) {
 	outportb( port + 4, 0x0B);    // IRQs enabled, RTS/DSR set
 }
 
-void serial_write( char c ) {
+void serial_set_default_port( uint32_t port ) {
+	default_port = port;
+}
+
+void serial_write_port( char c, uint32_t port ) {
+	if( port == serial_use_default_port ) {
+		port = default_port;
+	}
+
 	// Make sure the transmit queue is empty
 	while( ( inportb( port + 5) & 0x20 ) == 0 ) {
 		;
@@ -28,7 +36,11 @@ void serial_write( char c ) {
 	outportb( port, c );
 }
 
-char serial_read( void ) {
+char serial_read_port( uint32_t port ) {
+	if( port == serial_use_default_port ) {
+		port = default_port;
+	}
+
 	// Wait until we can get something
 	while( ( inportb( port + 5) & 1 ) == 0 ) {
 		;
