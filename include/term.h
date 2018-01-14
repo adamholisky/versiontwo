@@ -24,7 +24,7 @@ typedef struct {
     uint32_t	background_color;
 } term;
 
-void term_setup( void );
+void initalize_terminal( void );
 void term_print_color( void );
 void term_set_color( uint32_t foreground, uint32_t background );
 void term_put_char( char c );

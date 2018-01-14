@@ -8,7 +8,7 @@
 #define serial_write( c ) serial_write_port( c, serial_use_default_port )
 #define serial_read( ) serial_read_port( serial_use_default_port )
 
-void serial_setup( void );
+void initalize_serial( void );
 void serial_setup_port( uint32_t port );
 void serial_set_default_port( uint32_t port );
 void serial_write_port( char c, uint32_t port );

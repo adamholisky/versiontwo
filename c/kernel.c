@@ -4,35 +4,29 @@
 extern void system_interrupt_test( void );
 
 void kernel_main( void ) {
-	term_setup();
+	initalize_terminal();
 	initalize_interrupts();
-	serial_setup();
+	initalize_serial();
+
 	debug_f( "VersionTwo Serial Output\n\n" );
+	debug_f2( "VersionTwo Log Output\n\n" );
 
 	initalize_memory();
 	initalize_user_mode();
-
 	initalize_keyboard();
  
-	printf( "VersionTwo\n\n" );
-
-	
-
-	//test_user_mode_app();
+	printf( "           _   _                   _              _____  _    _  _____ \n" );
+	printf( "          | | | |                 (_)            |_   _|| |  | ||  _  |\n" );
+	printf( "          | | | |  ___  _ __  ___  _   ___   _ __  | |  | |  | || | | |\n" );
+	printf( "          | | | | / _ \\| '__|/ __|| | / _ \\ | '_ \\ | |  | |/\\| || | | |\n" );
+	printf( "          \\ \\_/ /|  __/| |   \\__ \\| || (_) || | | || |  \\  /\\  /\\ \\_/ /\n" );
+	printf( "           \\___/  \\___||_|   |___/|_| \\___/ |_| |_|\\_/   \\/  \\/  \\___/ \n" );
+	printf( "\n\n" );
 
 	mem_tests();
-
-	char * my_string = kmalloc( sizeof( char ) * 256 );
-	int my_number = 0;
-
-	printf( "Enter a word and a number: " );
-	scanf( "%s %d", my_string, &my_number );
-	printf( "You entered: %s %d\n", my_string, my_number );
-
-	printf( "Enter a character: " );
-	char c = getchar();
-	printf( "\nYou hit: %c\n", c );
-
+	test_user_mode_app();
+	//keyboard_entry_test();
+	
 	printf( "\nEntering forever land." );
 
 	while ( 1 ) { ; }

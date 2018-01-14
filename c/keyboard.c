@@ -127,3 +127,16 @@ char get_character( unsigned int scancode ) {
 
 	return keyboard_map[ scancode ];
 }
+
+void keyboard_entry_test( void ) {
+	char * my_string = kmalloc( sizeof( char ) * 256 );
+	int my_number = 0;
+
+	printf( "Enter a word and a number: " );
+	scanf( "%s %d", my_string, &my_number );
+	printf( "You entered: %s %d\n", my_string, my_number );
+
+	printf( "Enter a character: " );
+	char c = getchar();
+	printf( "\nYou hit: %c\n", c );
+}

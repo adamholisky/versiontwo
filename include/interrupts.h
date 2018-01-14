@@ -159,14 +159,12 @@ extern void interrupt_0x30( void );
 void interrupt_handler_14( void * address );
 
 void initalize_interrupts( void );
-void load_idtr( void );//sets up IDT by loading IDTR
-void AddInt( int number, void (*handler)(), dword dpl ); //add interrupt
-void load_exceptions(); // init all exceptions
-void panic(char *message, char *mnemonic, bool halt); //exception panic
-void remap_pic(int pic1, int pic2);      //remap PIC
-void mask_irq(byte irq);                 //PIC irq masking
-void unmaskIRQ(byte irq);               //PIC irq unmasking
-void INTS(bool on);                     //sti or cli
+void load_idtr( void );
+void add_interrupt( int number, void (*handler)(), dword dpl );
+void load_exceptions();
+void remap_pic(int pic1, int pic2);
+void mask_irq(byte irq);
+void unmask_irq(byte irq);
 void pic_acknowledge(unsigned int interrupt);
 void interrupt_default_handler( unsigned long interrupt_num, unsigned long route_code, struct interrupt_stack * stack );
 void set_debug_interrupts( bool d );

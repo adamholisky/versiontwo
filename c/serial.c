@@ -2,7 +2,7 @@
 
 uint32_t	default_port;
 
-void serial_setup( void ) {
+void initalize_serial( void ) {
 	serial_setup_port( COM1 );
 	serial_setup_port( COM2 );
 

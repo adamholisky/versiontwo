@@ -73,12 +73,8 @@ void interrupt_default_handler( unsigned long interrupt_num, unsigned long route
 			case 6:
 				debug_f( "Exception: Invalid opcode\n" );
 				break;
-			case 0x21:
-				debug_f( "Keyboard int" );
-				while ( 1 ) { ; }
-				break;
 			default:
-				debug_f( "Unhandled exception: %0x02X\n", interrupt_num );
+				debug_f( "Unhandled exception: 0x%02X\n", interrupt_num );
 		}
 		
 		while( 1 ) { ; }
@@ -87,41 +83,35 @@ void interrupt_default_handler( unsigned long interrupt_num, unsigned long route
 			case 0x21:
 				keyboard_interrupt_handler();
 				break;
+			case 0x30:		
+				if( (unsigned int)stack->eax == 0x8844 ) {
+					debug_f( "System call executed" );
+				}
+
+				if( (unsigned int)stack->eax == 0x8845 ) {
+					printf( "!" );
+
+					union x86flags ef;
+					
+					ef = (union x86flags)stack->eflags;
+
+					debug_f2( "User mode register dump:\n" );
+					debug_f2( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack->eax, stack->ebx, stack->ecx, stack->edx );
+					debug_f2( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack->esp, stack->ebp, stack->esi, stack->edi );
+					debug_f2( "  ds:   0x%04X      es:   0x%04X      fs:   0x%04X      gs:   0x%04X\n", stack->ds, stack->es, stack->fs, stack->gs );
+					debug_f2( "  cs:   0x%04X      eip:  0x%08X    flag: 0x%08X\n", stack->cs, stack->eip, ef.all_flags );
+					debug_f2( "  cf: %d  pf: %d  af: %d  zf: %d  sf: %d  tf: %d  if: %d  iopl: %d  nt: %d  rf: %d\n", ef.eflags_bits.cf, ef.eflags_bits.pf, ef.eflags_bits.af, ef.eflags_bits.zf, ef.eflags_bits.sf, ef.eflags_bits.tf, ef.eflags_bits.ifen, ef.eflags_bits.iopl, ef.eflags_bits.nt, ef.eflags_bits.rf );
+					debug_f2( "  vm: %d  ac: %d  vif: %d  id: %d\n\n", ef.eflags_bits.vm, ef.eflags_bits.ac, ef.eflags_bits.vif, ef.eflags_bits.id );
+
+					// Set this to prove we can modify program dynamically 
+					stack->ebx = stack->ebx + 1;
+				}
 			default:
 				//debug_f( "Unhandled interrupt: %0x02X\n", interrupt_num );
 				break;
 		}
 		
 		pic_acknowledge( interrupt_num );
-	} else {
-		if( interrupt_num == 0x30 ) {
-			unsigned int eax = (unsigned int)stack->eax;
-		
-			if( eax == 0x8844 ) {
-				debug_f( "System call executed" );
-			}
-
-			if( eax == 0x8845 ) {
-				debug_f( "!" );
-
-				union x86flags ef;
-				
-				ef = (union x86flags)stack->eflags;
-
-				printf( "User mode register dump:\n" );
-				printf( "  eax:  0x%08X  ebx:  0x%08X  ecx:  0x%08X  edx:  0x%08X\n", stack->eax, stack->ebx, stack->ecx, stack->edx );
-				printf( "  esp:  0x%08X  ebp:  0x%08X  esi:  0x%08X  edi:  0x%08X\n", stack->esp, stack->ebp, stack->esi, stack->edi );
-				printf( "  ds:   0x%04X      es:   0x%04X      fs:   0x%04X      gs:   0x%04X\n", stack->ds, stack->es, stack->fs, stack->gs );
-				printf( "  cs:   0x%04X      eip:  0x%08X    flag: 0x%08X\n", stack->cs, stack->eip, ef.all_flags );
-				printf( "  cf: %d  pf: %d  af: %d  zf: %d  sf: %d  tf: %d  if: %d  iopl: %d  nt: %d  rf: %d\n", ef.eflags_bits.cf, ef.eflags_bits.pf, ef.eflags_bits.af, ef.eflags_bits.zf, ef.eflags_bits.sf, ef.eflags_bits.tf, ef.eflags_bits.ifen, ef.eflags_bits.iopl, ef.eflags_bits.nt, ef.eflags_bits.rf );
-				printf( "  vm: %d  ac: %d  vif: %d  id: %d\n\n", ef.eflags_bits.vm, ef.eflags_bits.ac, ef.eflags_bits.vif, ef.eflags_bits.id );
-
-				// Set this to prove we can modify program dynamically 
-				stack->ebx = stack->ebx + 1;
-			}
-
-			pic_acknowledge( interrupt_num );
-		}
 	}
 }
 
@@ -174,29 +164,12 @@ void load_exceptions( void ) {
     add_interrupt(19, interrupt_19, 0);
 }
 
- /* enables/disables software interrupts */
-void INTS( bool on ) {
-	if( on ) {
-		asm("sti");
-	} else {
-		asm("cli");
-	}
-}
-
 void pic_acknowledge( unsigned int interrupt ) {
 	if( interrupt > 0x28 ) {
 		outportb( 0xA0, 0x20 );
 	}
 
 	outportb( 0x20, 0x20 );
-}
-
-void panic( char *message, char *code, bool halt ) {
-     debug_f( message );
-     
-	 outportb(MASTER, EOI); //send PIC EOI command
-
-	 while ( 1 ) { ; }
 }
 
 void int_13( struct interrupt_stack stack ) {
@@ -253,7 +226,7 @@ void mask_irq( byte irq ) {
 }
 
 /* opposite of above */
-void unmaskIRQ( byte irq ) {
+void unmask_irq( byte irq ) {
 	if( irq==ALL ) {
 		outportb(MASTERDATA,0x00);
 		outportb(SLAVEDATA,0x00);

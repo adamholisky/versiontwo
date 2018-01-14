@@ -41,7 +41,7 @@ void initalize_memory( void ) {
 }
 
 void * get_free_page( uint16_t num ) {
-	void * ret_addr = (current_page << 22);
+	void * ret_addr = (void *)(current_page << 22);
 
 	page_directory[ current_page ] = real_mem_base | 0x83;
 
@@ -78,7 +78,7 @@ void initalize_paging( void ) {
 	    page_directory[i] = 0x00000000;
 	}
 
-	page_directory[ 0 ] = 0x04000087; // loaded binary file from linker, mapped to 0
+	page_directory[ 0 ] = 0x00C00087; // loaded binary file from linker, mapped to 0
 	page_directory[ kernel_memory_base >> 22 ] = 0x00000083; // Kernel 
 	page_directory[ 769 ] = 0x00400083;
 	//page_directory[ 770 ] = 0x00600083;
@@ -103,14 +103,14 @@ void mem_tests( void ) {
 	debug_f2( "mem_e (1 byte):     0x%0X8\n", mem_e );
 
 	*mem_a = 'A';
-	strcpy( mem_b, "Katherine Holisky" );
+	strcpy( (char *)mem_b, "Katherine Holisky" );
 
 	debug_f2( "mem_a:              %c\n", *mem_a );
 	debug_f2( "mem_b:              %s\n", mem_b );
 
-	struct page_directory_entry * pt_entry_a = page_directory;
-	struct page_directory_entry * pt_entry_b = (page_directory + 768);
-	struct page_directory_entry * pt_entry_current = (page_directory + current_page - 1);
+	struct page_directory_entry * pt_entry_a = (struct page_directory_entry *)page_directory;
+	struct page_directory_entry * pt_entry_b = (struct page_directory_entry *)(page_directory + 768);
+	struct page_directory_entry * pt_entry_current = (struct page_directory_entry *)(page_directory + current_page - 1);
 
 	debug_f2( "page_dir 000:  0x%08X\n", page_directory[0] );
 	debug_f2( "pt_entry 000:  p:%x r:%x u:%x w:%x d:%x a:%x 0:%x s:%x ig:%x av:%x phy_addr: 0x%08X\n", pt_entry_a->present, pt_entry_a->read_write, pt_entry_a->user_supervisor, pt_entry_a->write_through, pt_entry_a->cache_disabled, pt_entry_a->accessed, pt_entry_a->always_zero, pt_entry_a->page_size, pt_entry_a->ignored, pt_entry_a->available, (pt_entry_a->page_table_addr << 12) );
@@ -144,7 +144,7 @@ void test_user_mode_app( void ) {
 		debug_f( "0x%02X ", *(mem + i ) );
 	}
 
-	debug_f( "\n\n" );
+	debug_f( "Jumping to user mode...\n\n" );
 
 	jump_to_user_mode();
 }
@@ -194,7 +194,7 @@ void initalize_user_mode( void ) {
 
 	memset( &tss_entry, 0, sizeof( tss_entry ) );
 	tss_entry.ss0 					= 0x10;
-	tss_entry.esp0 					= stack;
+	tss_entry.esp0 					= (uint32_t)stack;
    	tss_entry.ss = tss_entry.ds = tss_entry.es = tss_entry.fs = tss_entry.gs = 0x23;
 
 	tss_flush();

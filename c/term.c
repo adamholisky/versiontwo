@@ -27,7 +27,7 @@ void term_set_color( uint32_t foreground, uint32_t background ) {
 *   1. Define the default colors
 *   2. Blank the screen
 */
-void term_setup( void ) {
+void initalize_terminal( void ) {
 	unsigned int x = 0;
 	unsigned int y = 0;
 

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := runclean
 
 CC = /osdev/bin/i686-elf-gcc
-CFLAGS = -ffreestanding -O2 -nostdlib -lgcc -isystem../system-include -I../include -z muldefs
+CFLAGS = -ffreestanding -O2 -nostdlib -lgcc -isystem../libc-includes -I../include -z muldefs
 
 ASM = nasm
 AFLAGS = -felf32
@@ -19,7 +19,7 @@ versiontwo.iso:
 	grub-mkrescue -o versiontwo.iso iso
 
 run: versiontwo.iso
-	qemu-system-i386 -cdrom versiontwo.iso -serial stdio -serial file:serial_out.txt -m 4G
+	qemu-system-i386 -cdrom versiontwo.iso -serial stdio -serial file:serial_out.txt -m 2G
 
 runclean:
 	make clean

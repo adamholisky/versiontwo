@@ -1,3 +1,5 @@
+VersionTwo Log Output
+
 [get_free_page] Allocated Page: 832 -- phys_addr: 0x00800000 -- virt_addr: 0xD0000000
 =====Memory Tests=====
 mem_a (1 byte):     0xD00000008
@@ -7,10 +9,50 @@ mem_d (1 byte):     0xD00048018
 mem_e (1 byte):     0xD00048028
 mem_a:              A
 mem_b:              Katherine Holisky
-page_dir 000:  0x04000087
-pt_entry 000:  p:1 r:1 u:1 w:0 d:0 a:0 0:0 s:1 ig:0 av:0 phy_addr: 0x04000000
+page_dir 000:  0x00C00087
+pt_entry 000:  p:1 r:1 u:1 w:0 d:0 a:0 0:0 s:1 ig:0 av:0 phy_addr: 0x00C00000
 page_dir 768:  0x000000E3
 pt_entry 768:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00000000
-page_dir 832:  0xC0105CFB
+page_dir 832:  0xC0105C57
 pt_entry 832:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00800000
 ==========
+User mode register dump:
+  eax:  0x00008845  ebx:  0x00000000  ecx:  0x00000000  edx:  0x00000000
+  esp:  0xC0113050  ebp:  0x00000000  esi:  0x00000000  edi:  0x00000000
+  ds:   0x0023      es:   0x0023      fs:   0x0023      gs:   0x0023
+  cs:   0x001B      eip:  0x0000000C    flag: 0x00000282
+  cf: 0  pf: 0  af: 0  zf: 0  sf: 1  tf: 0  if: 1  iopl: 0  nt: 0  rf: 0
+  vm: 0  ac: 0  vif: 0  id: 0
+
+User mode register dump:
+  eax:  0x00008845  ebx:  0x00000001  ecx:  0x00000000  edx:  0x00000001
+  esp:  0xC0113050  ebp:  0x00000000  esi:  0x00000000  edi:  0x00000000
+  ds:   0x0023      es:   0x0023      fs:   0x0023      gs:   0x0023
+  cs:   0x001B      eip:  0x0000000C    flag: 0x00000297
+  cf: 1  pf: 1  af: 1  zf: 0  sf: 1  tf: 0  if: 1  iopl: 0  nt: 0  rf: 0
+  vm: 0  ac: 0  vif: 0  id: 0
+
+User mode register dump:
+  eax:  0x00008845  ebx:  0x00000002  ecx:  0x00000000  edx:  0x00000002
+  esp:  0xC0113050  ebp:  0x00000000  esi:  0x00000000  edi:  0x00000000
+  ds:   0x0023      es:   0x0023      fs:   0x0023      gs:   0x0023
+  cs:   0x001B      eip:  0x0000000C    flag: 0x00000293
+  cf: 1  pf: 0  af: 1  zf: 0  sf: 1  tf: 0  if: 1  iopl: 0  nt: 0  rf: 0
+  vm: 0  ac: 0  vif: 0  id: 0
+
+User mode register dump:
+  eax:  0x00008845  ebx:  0x00000003  ecx:  0x00000000  edx:  0x00000003
+  esp:  0xC0113050  ebp:  0x00000000  esi:  0x00000000  edi:  0x00000000
+  ds:   0x0023      es:   0x0023      fs:   0x0023      gs:   0x0023
+  cs:   0x001B      eip:  0x0000000C    flag: 0x00000293
+  cf: 1  pf: 0  af: 1  zf: 0  sf: 1  tf: 0  if: 1  iopl: 0  nt: 0  rf: 0
+  vm: 0  ac: 0  vif: 0  id: 0
+
+User mode register dump:
+  eax:  0x00008845  ebx:  0x00000004  ecx:  0x00000000  edx:  0x00000004
+  esp:  0xC0113050  ebp:  0x00000000  esi:  0x00000000  edi:  0x00000000
+  ds:   0x0023      es:   0x0023      fs:   0x0023      gs:   0x0023
+  cs:   0x001B      eip:  0x0000000C    flag: 0x00000297
+  cf: 1  pf: 1  af: 1  zf: 0  sf: 1  tf: 0  if: 1  iopl: 0  nt: 0  rf: 0
+  vm: 0  ac: 0  vif: 0  id: 0
+
