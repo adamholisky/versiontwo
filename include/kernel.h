@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 #define byte unsigned char
 #define word unsigned short
@@ -10,6 +11,7 @@
 #define kernel_memory_base  0xC0000000
 
 #include "interrupts.h"
+#include "keyboard.h"
 #include "memory.h"
 #include "serial.h"
 #include "term.h"

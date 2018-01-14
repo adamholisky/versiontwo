@@ -54,6 +54,12 @@ int		toupper	(int c);
 #define	tolower(c)			(isupper(c) ? ((c) + 'a' - 'A') : (c))
 #define	toupper(c)			(islower(c) ? ((c) + 'A' - 'a') : (c))
 
+#define  INT_MAX 2147483647
+#define  UINT_MAX 0xFFFFFFFF
+#define  CHAR_BIT __CHAR_BIT__
+#define  LONG_BIT (CHAR_BIT*sizeof(long))
+#define  uintmax_t uint32_t
+
 #ifdef __cplusplus
 }
 #endif

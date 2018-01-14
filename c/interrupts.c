@@ -73,11 +73,26 @@ void interrupt_default_handler( unsigned long interrupt_num, unsigned long route
 			case 6:
 				debug_f( "Exception: Invalid opcode\n" );
 				break;
+			case 0x21:
+				debug_f( "Keyboard int" );
+				while ( 1 ) { ; }
+				break;
 			default:
 				debug_f( "Unhandled exception: %0x02X\n", interrupt_num );
 		}
 		
 		while( 1 ) { ; }
+	} else if ( route_code == 0x02 ) {
+		switch( interrupt_num ) {
+			case 0x21:
+				keyboard_interrupt_handler();
+				break;
+			default:
+				//debug_f( "Unhandled interrupt: %0x02X\n", interrupt_num );
+				break;
+		}
+		
+		pic_acknowledge( interrupt_num );
 	} else {
 		if( interrupt_num == 0x30 ) {
 			unsigned int eax = (unsigned int)stack->eax;

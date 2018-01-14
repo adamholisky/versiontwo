@@ -11,6 +11,6 @@ page_dir 000:  0x04000087
 pt_entry 000:  p:1 r:1 u:1 w:0 d:0 a:0 0:0 s:1 ig:0 av:0 phy_addr: 0x04000000
 page_dir 768:  0x000000E3
 pt_entry 768:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00000000
-page_dir 832:  0xC0104ED3
+page_dir 832:  0xC0105CFB
 pt_entry 832:  p:1 r:1 u:0 w:0 d:0 a:1 0:1 s:1 ig:0 av:0 phy_addr: 0x00800000
 ==========
