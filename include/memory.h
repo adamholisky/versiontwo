@@ -1,3 +1,6 @@
+#if !defined(MEMORY_INCLUDED)
+#define MEMORY_INCLUDED
+
 struct tss_entry_struct {
    uint32_t prev_tss;   // The previous TSS - if we used hardware task switching this would form a linked list.
    uint32_t esp0;       // The stack pointer to load when we change to kernel mode.
@@ -68,7 +71,7 @@ extern void load_kernel_managed_paging( uint32_t * page_dir );
 void test_user_mode_app( void );
 void mem_tests( void );
 
-void * kmalloc( uint32_t size );
+//void * kmalloc( uint32_t size );
 void * get_free_page( uint16_t num );
 
 /** This function is supposed to lock the memory data structures. It
@@ -89,3 +92,9 @@ void * get_free_page( uint16_t num );
  int liballoc_unlock();
  void * liballoc_alloc( int n );
  int liballoc_free( void * p, int n );
+
+ #define malloc( x ) kmalloc( x )
+ #define free( x ) kfree( x )
+ #define realloc( x, n ) krealloc( x, n )
+
+ #endif

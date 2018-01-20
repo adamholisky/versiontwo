@@ -1,3 +1,5 @@
+#if !defined(INTERRUPTS_INCLUDED)
+#define INTERRUPTS_INCLUDED
 /*
  * Interrupt types
  */
@@ -169,3 +171,4 @@ void pic_acknowledge(unsigned int interrupt);
 void interrupt_default_handler( unsigned long interrupt_num, unsigned long route_code, struct interrupt_stack * stack );
 void set_debug_interrupts( bool d );
 
+#endif

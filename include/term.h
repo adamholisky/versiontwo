@@ -1,3 +1,6 @@
+#if !defined(TERM_INCLUDED)
+#define TERM_INCLUDED
+
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
 	VGA_COLOR_BLUE = 1,
@@ -49,3 +52,5 @@ static inline unsigned char vga_entry_color( enum vga_color fg, enum vga_color b
 static inline unsigned int vga_entry( unsigned char uc, unsigned char color ) {
 	return (unsigned int) uc | (unsigned int) color << 8;
 }
+
+#endif

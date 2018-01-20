@@ -56,9 +56,15 @@ int		toupper	(int c);
 
 #define  INT_MAX 2147483647
 #define  UINT_MAX 0xFFFFFFFF
+#define  INT32_MAX 2147483647
+#define  UINT32_MAX 0xFFFFFFFF
+#define  INT32_MIN 0
 #define  CHAR_BIT __CHAR_BIT__
 #define  LONG_BIT (CHAR_BIT*sizeof(long))
 #define  uintmax_t uint32_t
+#define  intmax_t uint32_t
+
+typedef unsigned int time_t;
 
 #ifdef __cplusplus
 }

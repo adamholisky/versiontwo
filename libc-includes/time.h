@@ -1,11 +1,35 @@
+#ifndef TIME_H
+#define TIME_H
+
+#include "stddef.h"
+
+#define CLOCKS_PER_SEC
+
 struct tm {
-   int tm_sec;         /* seconds,  range 0 to 59          */
-   int tm_min;         /* minutes, range 0 to 59           */
-   int tm_hour;        /* hours, range 0 to 23             */
-   int tm_mday;        /* day of the month, range 1 to 31  */
-   int tm_mon;         /* month, range 0 to 11             */
-   int tm_year;        /* The number of years since 1900   */
-   int tm_wday;        /* day of the week, range 0 to 6    */
-   int tm_yday;        /* day in the year, range 0 to 365  */
-   int tm_isdst;       /* daylight saving time             */
+    int tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday, tm_yday, tm_isdst;
 };
+
+
+typedef unsigned int time_t;
+typedef unsigned int clock_t;
+
+
+#ifdef _cplusplus
+extern "C" {
+#endif
+
+char* asctime(const struct tm* timeptr);
+clock_t clock(void);
+char* ctime(const time_t* time);
+double difftime(time_t t1, time_t t2);
+struct tm* gmtime(const time_t* timer);
+struct tm* localtime(const time_t* timer);
+time_t mktime(struct tm* timeptr);
+size_t strftime(char* ptr, size_t maxsize, const char* format, const struct tm* timeptr);
+time_t time(time_t* timer);
+
+#ifdef _cplusplus
+}
+#endif
+
+#endif

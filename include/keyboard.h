@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_HEADER
-#define KEYBOARD_HEADER
+#if !defined(KEYBOARD_INCLUDED)
+#define KEYBOARD_INCLUDED
 
 void initalize_keyboard( void );
 char get_scancode( void );

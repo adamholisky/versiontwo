@@ -1,8 +1,6 @@
 #include "kernel.h"
 #include <stdio.h>
 
-extern void system_interrupt_test( void );
-
 void kernel_main( void ) {
 	initalize_terminal();
 	initalize_interrupts();

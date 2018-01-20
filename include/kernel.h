@@ -1,3 +1,6 @@
+#if !defined(KERNEL_INCLUDED)
+#define KERNEL_INCLUDED
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -13,6 +16,7 @@
 #include "interrupts.h"
 #include "keyboard.h"
 #include "memory.h"
+#include "liballoc.h"
 #include "serial.h"
 #include "term.h"
 #include "base.h"
@@ -36,3 +40,5 @@ static inline uint8_t inportb( uint32_t port)
     __asm__ __volatile__ ("inb %w1,%b0" : "=a"(value) : "d"(port));
     return value;
 }
+
+#endif

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := runclean
 
 CC = /osdev/bin/i686-elf-gcc
-CFLAGS = -ffreestanding -O2 -nostdlib -lgcc -isystem../libc-includes -I../include -z muldefs
+CFLAGS = -ffreestanding -O2 -nostdlib -static-libgcc -lgcc -isystem../libc-includes -I../include -I../duktape -z muldefs
 
 ASM = nasm
 AFLAGS = -felf32
@@ -14,6 +14,7 @@ versiontwo.iso:
 	$(MAKE) -C asm
 	$(MAKE) -C c
 	$(MAKE) -C libc
+	#$(MAKE) -C duktape
 	$(MAKE) -C build-support
 	cp build/versiontwo.bin -f iso/boot/versiontwo.bin
 	grub-mkrescue -o versiontwo.iso iso

@@ -1,3 +1,6 @@
+#if !defined(SERIAL_INCLUDED)
+#define SERIAL_INCLUDED
+
 #define serial_use_default_port 0
 
 #define COM1 0x3F8
@@ -13,3 +16,5 @@ void serial_setup_port( uint32_t port );
 void serial_set_default_port( uint32_t port );
 void serial_write_port( char c, uint32_t port );
 char serial_read_port( uint32_t port );
+
+#endif

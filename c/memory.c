@@ -18,10 +18,13 @@ struct page_directory_entry {
 	uint32_t page_table_addr	: 20;
 } __attribute__((packed));
 
+void * mem_current;
 void * mem_top;
 struct tss_entry_struct tss_entry;
 bool allow_mem_debug = false;
 bool malloc_lock = true;
+bool allocator_has_run = false;
+uint32_t page_size = 0x400000;
 
 uint32_t current_page = 0xD0000000 >> 22;
 uint32_t real_mem_base = 0x00800000;
@@ -36,7 +39,7 @@ extern void jump_to_user_mode( void );
 void initalize_memory( void ) {
 	initalize_paging();
 
-	mem_top = get_free_page( 1 );
+	mem_current = get_free_page( 1 );
 	malloc_lock = false;
 }
 
@@ -55,13 +58,15 @@ void * get_free_page( uint16_t num ) {
 	return ret_addr;
 }
 
+/*
 void * kmalloc( uint32_t size ) {
-	void * ret_val = mem_top;
+	void * ret_val = mem_current;
 
-	mem_top = mem_top + size;
+	mem_current = mem_current + size;
 
 	return ret_val;
 }
+*/
 
 void enable_mem_debug( void ) {
 	allow_mem_debug = true;
@@ -89,11 +94,11 @@ void initalize_paging( void ) {
 }
 
 void mem_tests( void ) {
-	uint8_t * mem_a = kmalloc( sizeof( uint8_t ) );
-	uint16_t * mem_b = kmalloc( sizeof( uint16_t ) * 1024 );
-	uint32_t * mem_c = kmalloc( sizeof( uint32_t ) * 4096 );
-	uint8_t * mem_d = kmalloc( sizeof( uint8_t ) );
-	uint8_t * mem_e = kmalloc( sizeof( uint8_t ) );
+	uint8_t * mem_a = malloc( sizeof( uint8_t ) );
+	uint16_t * mem_b = malloc( sizeof( uint16_t ) * 1024 );
+	uint32_t * mem_c = malloc( sizeof( uint32_t ) * 4096 );
+	uint8_t * mem_d = malloc( sizeof( uint8_t ) );
+	uint8_t * mem_e = malloc( sizeof( uint8_t ) );
 
 	debug_f2( "=====Memory Tests=====\n" );
 	debug_f2( "mem_a (1 byte):     0x%0X8\n", mem_a );
@@ -107,6 +112,11 @@ void mem_tests( void ) {
 
 	debug_f2( "mem_a:              %c\n", *mem_a );
 	debug_f2( "mem_b:              %s\n", mem_b );
+
+	free( mem_e );
+
+	uint8_t * mem_f = malloc( 0x40000 );
+	debug_f2( "mem_f (1 byte):     0x%0X8\n", mem_f );
 
 	struct page_directory_entry * pt_entry_a = (struct page_directory_entry *)page_directory;
 	struct page_directory_entry * pt_entry_b = (struct page_directory_entry *)(page_directory + 768);
@@ -198,4 +208,63 @@ void initalize_user_mode( void ) {
    	tss_entry.ss = tss_entry.ds = tss_entry.es = tss_entry.fs = tss_entry.gs = 0x23;
 
 	tss_flush();
+}
+
+/** This function is supposed to lock the memory data structures. It
+ * could be as simple as disabling interrupts or acquiring a spinlock.
+ * It's up to you to decide. 
+ *
+ * \return 0 if the lock was acquired successfully. Anything else is
+ * failure.
+ */
+int liballoc_lock() {
+	return 0;
+}
+
+/** This function unlocks what was previously locked by the liballoc_lock
+ * function.  If it disabled interrupts, it enables interrupts. If it
+ * had acquiried a spinlock, it releases the spinlock. etc.
+ *
+ * \return 0 if the lock was successfully released.
+ */
+int liballoc_unlock() {
+	return 0;
+}
+
+/** This is the hook into the local system which allocates pages. It
+ * accepts an integer parameter which is the number of pages
+ * required.  The page size was set up in the liballoc_init function.
+ *
+ * \return NULL if the pages were not allocated.
+ * \return A pointer to the allocated memory.
+ */
+void * liballoc_alloc( int pages ) {
+	void * ret_val = NULL;
+	uint32_t i;
+
+	ret_val = mem_current;
+
+	for( i = 0; i < pages; i++ ) {
+		if( allocator_has_run ) {
+			mem_current = get_free_page( 1 );
+		} else {
+			allocator_has_run = true;
+		}
+	}
+
+	debug_f2( "liballoc_alloc( %d ) called.\n", pages );
+
+	return ret_val;
+}
+
+/** This frees previously allocated memory. The void* parameter passed
+ * to the function is the exact same value returned from a previous
+ * liballoc_alloc call.
+ *
+ * The integer value is the number of pages to free.
+ *
+ * \return 0 if the memory was successfully freed.
+ */
+int liballoc_free(void* page, int pages) {
+	return 0;
 }
