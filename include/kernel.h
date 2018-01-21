@@ -15,11 +15,14 @@
 
 #include "interrupts.h"
 #include "keyboard.h"
+#include "multiboot.h"
 #include "memory.h"
 #include "liballoc.h"
 #include "serial.h"
 #include "term.h"
 #include "base.h"
+#include "elf.h"
+#include "command_line.h"
 
 /* Outputs a byte to the specified hardware port */
 static inline void outportb( uint32_t port, uint8_t value)

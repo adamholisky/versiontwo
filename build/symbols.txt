@@ -1,0 +1,356 @@
+
+versiontwo.bin:     file format elf32-i386
+
+SYMBOL TABLE:
+c0100000 l    d  .text	00000000 .text
+c0106e6c l    d  .eh_frame	00000000 .eh_frame
+c0109000 l    d  .data	00000000 .data
+c010d000 l    d  .bss	00000000 .bss
+00000000 l    d  .comment	00000000 .comment
+00000000 l    df *ABS*	00000000 boot.asm
+00000001 l       *ABS*	00000000 MBALIGN
+00000002 l       *ABS*	00000000 MEMINFO
+00000004 l       *ABS*	00000000 MBOOT_VBE_MODE
+00000003 l       *ABS*	00000000 FLAGS
+1badb002 l       *ABS*	00000000 MAGIC
+e4524ffb l       *ABS*	00000000 CHECKSUM
+c0000000 l       *ABS*	00000000 KERNEL_VIRTUAL_BASE
+00000300 l       *ABS*	00000000 KERNEL_PAGE_NUMBER
+c0109000 l       .data	00000000 BootPageDirectory
+00000000 l       *ABS*	00000000 NULL_SEL
+00000008 l       *ABS*	00000000 CODESEL
+00000010 l       *ABS*	00000000 DATASEL
+00000018 l       *ABS*	00000000 CODEUSER
+00000020 l       *ABS*	00000000 DATAUSER
+00000028 l       *ABS*	00000000 TSS
+c010a036 l       .data	00000000 GDT_END
+c0100000 l       .text	00000000 MultiBootHeader
+00004000 l       *ABS*	00000000 STACKSIZE
+c0100045 l       .text	00000000 start_two
+c0100078 l       .text	00000000 start_three
+00000000 l    df *ABS*	00000000 wchar.c
+00000000 l    df *ABS*	00000000 interruptsasm.asm
+00000000 l    df *ABS*	00000000 uchar.c
+00000000 l    df *ABS*	00000000 multiboot.c
+00000000 l    df *ABS*	00000000 stdio.c
+c01009b0 l     F .text	000000de ui2a
+c0100a90 l     F .text	000000c9 putchw
+c0100b60 l     F .text	00000012 putcp
+c0100b80 l     F .text	000006e0 vsnprintf.part.0
+c0114880 l     O .bss	00000004 stdout_putp
+c0114884 l     O .bss	00000004 stdout_putf
+00000000 l    df *ABS*	00000000 serial.c
+00000000 l    df *ABS*	00000000 memory.c
+00000000 l    df *ABS*	00000000 math.c
+00000000 l    df *ABS*	00000000 liballoc.c
+c0102c00 l     F .text	00000080 allocate_new_page
+c01148b0 l     O .bss	00000008 l_allocated
+c01148a0 l     O .bss	00000008 l_warningCount
+c01148bc l     O .bss	00000004 l_memRoot
+c01148b8 l     O .bss	00000004 l_bestBet
+c01148a8 l     O .bss	00000008 l_inuse
+c0114898 l     O .bss	00000008 l_errorCount
+c0114890 l     O .bss	00000008 l_possibleOverruns
+00000000 l    df *ABS*	00000000 errno.c
+00000000 l    df *ABS*	00000000 string.c
+c0114960 l     O .bss	00000004 prevS1.1115
+00000000 l    df *ABS*	00000000 boot.asm
+00000001 l       *ABS*	00000000 MBALIGN
+00000002 l       *ABS*	00000000 MEMINFO
+00000004 l       *ABS*	00000000 MBOOT_VBE_MODE
+00000003 l       *ABS*	00000000 FLAGS
+1badb002 l       *ABS*	00000000 MAGIC
+e4524ffb l       *ABS*	00000000 CHECKSUM
+c0000000 l       *ABS*	00000000 KERNEL_VIRTUAL_BASE
+00000300 l       *ABS*	00000000 KERNEL_PAGE_NUMBER
+c010b000 l       .data	00000000 BootPageDirectory
+00000000 l       *ABS*	00000000 NULL_SEL
+00000008 l       *ABS*	00000000 CODESEL
+00000010 l       *ABS*	00000000 DATASEL
+00000018 l       *ABS*	00000000 CODEUSER
+00000020 l       *ABS*	00000000 DATAUSER
+00000028 l       *ABS*	00000000 TSS
+c010c036 l       .data	00000000 GDT_END
+c01039c0 l       .text	00000000 MultiBootHeader
+00004000 l       *ABS*	00000000 STACKSIZE
+c0103a05 l       .text	00000000 start_two
+c0103a38 l       .text	00000000 start_three
+00000000 l    df *ABS*	00000000 keyboard.c
+00000000 l    df *ABS*	00000000 kernel.c
+00000000 l    df *ABS*	00000000 stdlib.c
+c010c140 l     O .data	00000004 _rand_value
+00000000 l    df *ABS*	00000000 base.c
+c0104150 l     F .text	000000c4 __udivmoddi4.part.0
+00000000 l    df *ABS*	00000000 ctype.c
+00000000 l    df *ABS*	00000000 vsscanf.c
+00000000 l    df *ABS*	00000000 time.c
+00000000 l    df *ABS*	00000000 usermodetest.asm
+c0105244 l       .text	00000000 gdt_flush.flush
+00000000 l    df *ABS*	00000000 term.c
+c0105280 l     F .text	00000023 term_put_char_at.part.0
+00000000 l    df *ABS*	00000000 interrupts.c
+00000000 l    df *ABS*	00000000 
+c010c14c l     O .data	00000000 _GLOBAL_OFFSET_TABLE_
+c01051fc g       .text	00000000 longjmp
+c010c040 g     O .data	00000080 keyboard_map_shift
+c0103400 g     F .text	00000030 strcpy
+c010013a g       .text	00000000 interrupt_0x23
+c0102810 g     F .text	0000006e expm1
+c0103190 g     F .text	00000173 krealloc
+c01017b0 g     F .text	00000026 tfp_sprintf
+c01022b0 g     F .text	00000007 fabs
+c01029c0 g     F .text	00000029 log
+c0102650 g     F .text	00000019 sqrt
+c01051e2 g       .text	00000000 setjmp
+c0114889 g     O .bss	00000001 allow_mem_debug
+c0102370 g     F .text	00000031 cosh
+c0102560 g     F .text	0000003b asinh
+c0104310 g     F .text	0000001e __divdi3
+c0101aa0 g     F .text	0000000a serial_set_default_port
+c0101740 g     F .text	00000013 init_printf
+c01012e0 g     F .text	0000001a vsprintf
+c0100500 g       .text	00000000 interrupt_7
+c0110004 g     O .bss	00000004 term_current_column
+c0102a90 g     F .text	00000002 logb
+c0118980 g     O .bss	00000001 global_can_update_cursor
+c0105370 g     F .text	00000003 is_gui_active
+c0100306 g       .text	00000000 interrupt_0x2D
+c0103310 g     F .text	0000008d _get_errno
+c0101970 g     F .text	00000007 inportw
+c01033d0 g     F .text	00000027 memmove
+c0105580 g     F .text	0000003c term_put_string
+c0101370 g     F .text	00000006 get_stdout_putp
+c0101260 g     F .text	00000029 snprintf
+c01052c0 g     F .text	00000013 term_set_color
+c010a044 g     O .data	00000001 malloc_lock
+c0103d50 g     F .text	00000002 added_function
+c0102200 g     F .text	00000003 liballoc_unlock
+c01019b0 g     F .text	00000097 initalize_serial
+c0103f50 g     F .text	00000047 atol
+c0110008 g     O .bss	00000004 term_buffer
+c01022c0 g     F .text	00000016 ceil
+c01022e0 g     F .text	00000016 floor
+c01044b0 g     F .text	00000016 isblank
+c010d000 g       .bss	00000000 _sbss
+c01040a0 g     F .text	0000000a labs
+c0100890 g     F .text	000000ea c32rtomb
+c01006cc g       .text	00000000 interrupt_19
+c0104820 g     F .text	00000986 vsscanf
+c01001c4 g       .text	00000000 interrupt_0x26
+c0114888 g     O .bss	00000001 allocator_has_run
+c0100362 g       .text	00000000 interrupt_0x2F
+c0110040 g     O .bss	00000006 sIDTR
+c0100642 g       .text	00000000 interrupt_16
+c01055c0 g     F .text	0000005c term_write_string
+c01033a0 g     F .text	00000021 memcpy
+c0105245 g       .text	00000000 jump_to_user_mode
+c0102fb0 g     F .text	00000002 kfree
+c01000de g       .text	00000000 interrupt_0x21
+c01148e0 g     O .bss	00000080 _errno_entries
+c01002d8 g       .text	00000000 interrupt_0x2C
+c0104520 g     F .text	00000011 islower
+c01005e6 g       .text	00000000 interrupt_12
+c010d000 g     O .bss	00000004 mb_magic
+c0104620 g     F .text	00000011 tolower
+c0103d60 g     F .text	0000017b peek
+c0105620 g     F .text	0000000a set_debug_output
+c010052e g       .text	00000000 interrupt_8
+c0101870 g     F .text	00000056 printfcomma
+c010041a g       .text	00000000 interrupt_2
+c0105950 g     F .text	0000004b add_interrupt
+c01029a0 g     F .text	0000001b ldexp
+c01012b0 g     F .text	00000024 vsnprintf
+c01017e0 g     F .text	00000084 printfcomma2
+c0101390 g     F .text	00000294 tfp_format
+c0101a50 g     F .text	00000048 serial_setup_port
+c0104570 g     F .text	00000037 ispunct
+c01043a0 g     F .text	00000042 __udivmoddi4
+c0104230 g     F .text	0000005c update_cursor
+c01003ec g       .text	00000000 interrupt_1
+c010c144 g     O .data	00000004 VGA_HEIGHT
+c01045b0 g     F .text	00000019 isspace
+c0106170 g     F .text	0000006d unmask_irq
+c0100020 g       .text	00000000 start_one
+c0104660 g     F .text	000001b5 strntoumax
+c01043f0 g     F .text	0000003d __umoddi3
+c0100168 g       .text	00000000 interrupt_0x24
+c0110880 g       .bss	00000000 stack
+c0104360 g     F .text	00000037 __udivdi3
+c0101910 g     F .text	00000058 hex2int
+c0104430 g     F .text	00000002 abort
+c011000c g     O .bss	00000004 y_start
+c01045f0 g     F .text	00000021 isxdigit
+c01021f0 g     F .text	00000003 liballoc_lock
+c0110060 g     O .bss	00000800 IDT
+c01052e0 g     F .text	0000008b initalize_terminal
+c0101980 g     F .text	00000029 to_lower
+c010c148 g     O .data	00000004 VGA_WIDTH
+c0100720 g     F .text	00000165 mbrtoc32
+c0105660 g     F .text	0000001e load_idtr
+c0118984 g       .bss	00000000 _ebss
+c0101760 g     F .text	00000021 tfp_printf
+c0103790 g     F .text	00000038 strrchr
+c0103b70 g     F .text	000001d2 kernel_main
+c0103b00 g     F .text	0000006f keyboard_entry_test
+c010e000 g     O .bss	00000068 tss_entry
+c0105550 g     F .text	00000027 term_clear_last_char
+c01006fa g       .text	00000000 interrupt_14
+c0101630 g     F .text	000000d1 get_string
+c0103490 g     F .text	0000003a strcat
+c0103ad0 g     F .text	00000028 get_character
+c0100334 g       .text	00000000 interrupt_0x2E
+c010d820 g     O .bss	00000004 default_port
+c0102b00 g     F .text	00000033 modf
+c01009a0 g     F .text	00000006 get_multiboot_header
+c0102300 g     F .text	00000037 fmod
+c0102340 g     F .text	00000007 cos
+c01023f0 g     F .text	00000023 tanh
+c0103690 g     F .text	0000002f memchr
+c01026d0 g     F .text	000000be exp2
+c0101b80 g     F .text	0000004f initalize_paging
+c01004d2 g       .text	00000000 interrupt_6
+c010055c g       .text	00000000 interrupt_9
+c010024e g       .text	00000000 interrupt_0x29
+c010e068 g     O .bss	00000004 mem_current
+c0103a70 g     F .text	00000049 keyboard_interrupt_handler
+c0103840 g     F .text	0000008a strstr
+c0102350 g     F .text	00000007 sin
+c01005b8 g       .text	00000000 interrupt_11
+c0104040 g     F .text	00000036 rand
+c010d004 g     O .bss	00000004 multiboot_header
+c0102bf0 g     F .text	0000000d fma
+c01024f0 g     F .text	0000000d atan2
+c0118982 g     O .bss	00000001 gpf_fired
+c010a040 g     O .data	00000004 page_size
+c01000b0 g       .text	00000000 interrupt_0x20
+c01045d0 g     F .text	00000011 isupper
+c0103630 g     F .text	00000057 strncmp
+c0118983 g     O .bss	00000001 debug_interrupts
+c0102210 g     F .text	0000007f liballoc_alloc
+c01053f0 g     F .text	00000159 term_put_char
+c0100980 g     F .text	00000013 initalize_multiboot
+c0106040 g     F .text	0000001e pic_acknowledge
+c01025e0 g     F .text	0000006b pow
+c01000a0 g       .text	00000000 sys_break
+c010069e g       .text	00000000 interrupt_18
+c0103430 g     F .text	00000057 strncpy
+c01023b0 g     F .text	00000031 sinh
+c01053a0 g     F .text	0000001f term_setup_for_gui
+c01001f2 g       .text	00000000 interrupt_0x27
+c01018d0 g     F .text	00000032 debug_f
+c01025a0 g     F .text	0000003b atanh
+c0102a60 g     F .text	00000029 log10
+c01002aa g       .text	00000000 interrupt_0x2B
+c0102bd0 g     F .text	0000000f fmin
+c0101bd0 g     F .text	00000022 initalize_memory
+c0105690 g     F .text	000002b1 interrupt_default_handler
+c01003be g       .text	00000000 interrupt_0
+c0102bb0 g     F .text	00000013 fdim
+c0102670 g     F .text	00000034 cbrt
+c01038d0 g     F .text	00000084 strtok
+c0110000 g     O .bss	00000001 current_scancode
+c0103520 g     F .text	00000057 memcmp
+c0101290 g     F .text	00000019 sscanf
+c0104490 g     F .text	00000014 isalpha
+c01034d0 g     F .text	00000049 strncat
+c01052b0 g     F .text	00000002 term_print_color
+c0100390 g       .text	00000000 interrupt_0x30
+c01148c0 g     O .bss	00000004 _errno_entries_oldest
+c0101ae0 g     F .text	00000019 serial_read_port
+c010c0c0 g     O .data	00000080 keyboard_map
+c0102060 g     F .text	0000003d memset
+c010027c g       .text	00000000 interrupt_0x2A
+c0110001 g     O .bss	00000001 is_shift
+c0102090 g     F .text	00000076 test_user_mode_app
+c0103ee0 g     F .text	00000013 peek_char
+c010a000 g       .data	00000000 GDTR
+c010008c g       .text	00000000 load_kernel_managed_paging
+c010010c g       .text	00000000 interrupt_0x22
+c0101b00 g     F .text	0000006f get_free_page
+c0104080 g     F .text	0000000a srand
+c0101300 g     F .text	0000006b getchar
+c01051e0 g     F .text	00000002 time
+c010e06c g     O .bss	00000004 mem_top
+c0104500 g     F .text	00000011 isgraph
+c0104460 g     F .text	00000023 isalnum
+c0104540 g     F .text	0000002b isprint
+c0102790 g     F .text	0000007e exp
+c0105cc0 g     F .text	00000378 initalize_interrupts
+c0104220 g     F .text	0000000e putc
+c0101c00 g     F .text	00000442 mem_tests
+c0103580 g     F .text	000000af strcmp
+c0102360 g     F .text	00000009 tan
+c0102b40 g     F .text	0000006d copysign
+c0105380 g     F .text	00000014 write_to_serial_port
+c0110010 g     O .bss	00000004 term_current_row
+c01024e0 g     F .text	00000009 atan
+c0100448 g       .text	00000000 interrupt_3
+c0101380 g     F .text	00000006 get_stdout_putf
+c0105680 g     F .text	0000000a set_debug_interrupts
+c01051b0 g     F .text	00000029 difftime
+c0103ac0 g     F .text	0000000f get_scancode
+c0103710 g     F .text	00000029 strcspn
+c0102480 g     F .text	0000005e asin
+c0101710 g     F .text	0000002c scanf
+c0101790 g     F .text	00000020 con_printf_secondary
+c010a038 g     O .data	00000004 real_mem_base
+c0102290 g     F .text	00000003 liballoc_free
+c01060b0 g     F .text	00000065 remap_pic
+c0102050 g     F .text	00000008 store_gdt_desc
+c0101ab0 g     F .text	0000002c serial_write_port
+c0104100 g     F .text	00000017 ldiv
+c0102500 g     F .text	00000059 acosh
+c0110014 g     O .bss	00000010 main_term
+c01059a0 g     F .text	0000031f load_exceptions
+c0100670 g       .text	00000000 interrupt_17
+c01004a4 g       .text	00000000 interrupt_5
+c0104120 g     F .text	00000022 lldiv
+c01044e0 g     F .text	00000011 isdigit
+c01000a8 g       .text	00000000 system_interrupt_test
+c010a03c g     O .data	00000004 current_page
+c0100614 g       .text	00000000 interrupt_13
+c0105220 g       .text	00000000 tss_flush
+c0100220 g       .text	00000000 interrupt_0x28
+c0105228 g       .text	00000000 gdt_flush
+c0102be0 g     F .text	0000000f fmax
+c0102aa0 g     F .text	0000005a ilogb
+c0104290 g     F .text	0000007f __divmoddi4
+c0106060 g     F .text	0000002c int_13
+c0110024 g     O .bss	00000001 term_current_color
+c0101b70 g     F .text	00000008 enable_mem_debug
+c0102c80 g     F .text	00000323 kmalloc
+c0102a20 g     F .text	0000003a log2
+c01040b0 g     F .text	00000022 llabs
+c0104440 g     F .text	00000002 __builtin_huge_inf
+c0103f00 g     F .text	00000047 atoi
+c010058a g       .text	00000000 interrupt_10
+c010d020 g     O .bss	00000800 stdin_buffer
+c01044d0 g     F .text	0000000b iscntrl
+c01029f0 g     F .text	0000002b log1p
+c0104330 g     F .text	00000029 __moddi3
+c0100476 g       .text	00000000 interrupt_4
+c010a006 g       .data	00000000 GDT
+c0110860 g     O .bss	00000001 pic1_irq_mask
+c01037d0 g     F .text	0000006a strspn
+c01053c0 g     F .text	00000022 term_put_char_at
+c0103a60 g     F .text	0000000f initalize_keyboard
+c01039a0 g     F .text	00000022 strlen
+c0104640 g     F .text	00000011 toupper
+c0103fa0 g     F .text	00000092 atoll
+c010f000 g     O .bss	00001000 page_directory
+c0118981 g     O .bss	00000001 is_debug_output
+c0102110 g     F .text	000000d9 initalize_user_mode
+c0106090 g     F .text	00000015 interrupt_handler_14
+c01040e0 g     F .text	00000017 div
+c01022a0 g     F .text	0000000a abs
+c0110861 g     O .bss	00000001 pic2_irq_mask
+c01036c0 g     F .text	00000047 strchr
+c0102420 g     F .text	0000005e acos
+c0106120 g     F .text	0000004b mask_irq
+c0103150 g     F .text	0000003f kcalloc
+c01026b0 g     F .text	00000013 hypot
+c0102880 g     F .text	0000011e frexp
+c0100196 g       .text	00000000 interrupt_0x25
+c0103740 g     F .text	0000004e strpbrk
+
+

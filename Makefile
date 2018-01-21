@@ -15,12 +15,13 @@ versiontwo.iso:
 	$(MAKE) -C c
 	$(MAKE) -C libc
 	#$(MAKE) -C duktape
+	$(MAKE) -C commands
 	$(MAKE) -C build-support
 	cp build/versiontwo.bin -f iso/boot/versiontwo.bin
-	grub-mkrescue -o versiontwo.iso iso
+	grub-mkrescue -d /usr/lib/grub/i386-pc -o versiontwo.iso iso
 
 run: versiontwo.iso
-	qemu-system-i386 -cdrom versiontwo.iso -serial stdio -serial file:serial_out.txt -m 2G
+	qemu-system-i386 -device isa-debug-exit,iobase=0xf4,iosize=0x04 -cdrom versiontwo.iso -serial stdio -serial file:serial_out.txt -m 4G
 
 runclean:
 	make clean

@@ -9,3 +9,12 @@ Memory Map (paged)
 0x4000 0000     User            1GB
 0x8000 0000     User            2GB
 0xC000 0000     Kernel          3GB -- 3,221,225,472
+
+Command Line
+
+Command :
+  - entrance
+  - name
+  - 
+
+command_add( main_function, "q" );
